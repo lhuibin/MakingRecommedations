@@ -108,5 +108,19 @@ def transformPrefs(prefs):
 			# 将物品和人员对调
 			result[item][person]=prefs[person][item]
 	return result
-
-print getRecommendations(transformPrefs(critics), 'Just My Luck')
+# 构造物品相似数据集
+def calculateSimilarItems(prefs,n=10):
+	# 建立字典，以给出与这些物品最为相近的所有其他物品
+	result = {}
+	# 以物品为中心对偏好矩阵实施倒置处理
+	itemPrefs=transformPrefs(prefs)
+	c=0
+	for item in itemPrefs:
+		# 针对大数据集更新状态变量
+		c+=1
+		if c%100==0:
+			print '%d / %d' % (c,len(itemPrefs))
+			# 寻找最为相近的物品
+		scores=topMatches(itemPrefs,item,n=n,similarity=sim_distance)
+		result[item]=scores
+	return result
