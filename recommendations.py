@@ -118,9 +118,35 @@ def calculateSimilarItems(prefs,n=10):
 	for item in itemPrefs:
 		# 针对大数据集更新状态变量
 		c+=1
-		if c%100==0:
+		if c%1==0:
 			print '%d / %d' % (c,len(itemPrefs))
 			# 寻找最为相近的物品
 		scores=topMatches(itemPrefs,item,n=n,similarity=sim_distance)
 		result[item]=scores
 	return result
+
+
+
+# 读取影片数据代码
+def loadMovieLens(path='data_movies/'):
+	# 获取影片标题
+	movies={}
+	for line in open(path+'movies.csv'):
+		(id,title)=line.split(',')[0:2]
+		movies[id]=title
+
+	# 加载数据
+	prefs={}
+	for line in open(path+'ratings.csv'):
+		(user,moiveId,raw_rating,ts)=line.split(',')
+		# 过滤错误评分，如评分异常，置0.0
+		try:
+			rating=float(raw_rating)
+		except:
+			rating=0.0
+		prefs.setdefault(user,{})
+		prefs[user][movies[moiveId]]=rating
+		
+	return prefs
+
+	
