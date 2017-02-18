@@ -110,7 +110,7 @@ def getdepth(clust):
 	if clust.left==None and clust.right==None:
 		return 0
 	# 一个枝节点的距离等于左右两侧分支中距离较大者
-	# 加上改枝节点自身的距离
+	# 加上该枝节点自身的距离
 	return max(getdepth(clust.left),getdepth(clust.right))+clust.distance
 
 def drawdendrogram(clust,lables,jpeg='clusters.jpg'):
@@ -144,7 +144,7 @@ def drawnode(draw,clust,x,y,scaling,labels):
 		draw.line((x,top+h1/2,x,bottom-h2/2),fill=(255,0,0))
 
 		# 连接左侧节点的垂直线
-		draw.line((x,top+h1/2,x+11,bottom-h2/2),fill=(255,0,0))
+		draw.line((x,top+h1/2,x+11,top+h1/2),fill=(255,0,0))
 
 		# 连接右侧节点的水平线
 		draw.line((x,bottom-h2/2,x+11,bottom-h2/2),fill=(255,0,0))
